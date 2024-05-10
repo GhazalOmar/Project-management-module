@@ -1,0 +1,15 @@
+.gitignore
+README.md
+api.module.ts
+api/api.ts
+api/participantsController.service.ts
+configuration.ts
+encoder.ts
+git_push.sh
+index.ts
+model/models.ts
+model/participant.ts
+model/serverResponse.ts
+model/type.ts
+param.ts
+variables.ts

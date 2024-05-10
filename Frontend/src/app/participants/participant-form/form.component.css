@@ -1,0 +1,15 @@
+    input{
+    margin-bottom: 1rem;
+}
+.form-ontainer{
+    background-color: #f5f5f5;
+    margin-top: 5rem; 
+    height: 85rem; 
+    padding: 5rem;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.center-button{
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+}

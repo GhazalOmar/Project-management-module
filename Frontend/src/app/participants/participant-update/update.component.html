@@ -1,0 +1,68 @@
+<div class="form-container">
+<form [formGroup]="participantForm" (ngSubmit)="onSubmit()">
+    <div class="form-group row">
+      <label for="code" class="col-sm-2 col-form-label">Code:</label>
+      <div class="col-sm-10">
+        <input type="text" formControlName="code" id="code" class="form-control">
+    </div>
+    </div>
+    <div class="form-group row">
+      <label for="bic" class="col-sm-2 col-form-label">BIC:</label>
+      <div class="col-sm-10">
+        <input type="text" formControlName="bic" id="bic" class="form-control">
+        <div *ngIf="participantForm.controls['bic'].invalid && (participantForm.controls['bic'].dirty || participantForm.controls['bic'].touched)" class="text-danger">
+          <div *ngIf="participantForm.controls['bic'].errors?.pattern">BIC must follow the specified format.</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="name" class="col-sm-2 col-form-label">Name:</label>
+      <div class="col-sm-10">
+        <input type="text" formControlName="name" id="name" class="form-control" placeholder="Enter Name">
+        <div *ngIf="participantForm.controls['name'].invalid && (participantForm.controls['name'].dirty || participantForm.controls['name'].touched)" class="text-danger">
+          <div *ngIf="participantForm.controls['name'].errors?.pattern">Name must be alphanumeric.</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="shortName" class="col-sm-2 col-form-label">Short Name:</label>
+      <div class="col-sm-10">
+        <input type="text" formControlName="shortName" id="shortName" class="form-control" placeholder="Enter Short Name">
+        <div *ngIf="participantForm.controls['shortName'].invalid && (participantForm.controls['shortName'].dirty || participantForm.controls['shortName'].touched)" class="text-danger">
+          <div *ngIf="participantForm.controls['shortName'].errors?.pattern">Short Name must contain only uppercase English characters.</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="type" class="col-sm-2 col-form-label">Type:</label>
+      <div class="col-sm-10">
+        <select formControlName="type" id="type" class="form-control">
+          <option value="Direct">Direct</option>
+          <option value="Indirect">Indirect</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group row">
+        <label for="logo" class="col-sm-2 col-form-label">Logo:</label>
+        <div class="col-sm-10">
+          <input type="file"  id="logo"  class="form-control" placeholder="Enter Logo" accept="image/*" (change)="onFileSelected($event)">
+          <img formControlName="logo" *ngIf="participantForm.get('logo')" [src]="image" height="100" alt="Image preview" style="margin-top: 2rem;"/>
+        </div>
+      </div>
+      <div class="form-group row" *ngIf="participantForm.get('type').value === 'Indirect'">
+        <label for="settlementBank" class="col-sm-2 col-form-label">Settlement Bank:</label>
+        <div class="col-sm-10">
+            <select formControlName="settlementBank" id="settlementBank" name="settlementBank" class="form-control">
+                <option selected>{{participantForm.get('settlementBank').value}}</option>
+                <option *ngFor="let code of codes | keyvalue"> {{ code.value }}</option> 
+            </select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-10 offset-sm-2">
+          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="button" class="btn btn-secondary" (click)="onCancel()">Back</button>
+        </div>
+      </div>
+    </form>
+  </div>

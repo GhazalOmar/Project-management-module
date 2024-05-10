@@ -1,0 +1,154 @@
+openapi: 3.0.3
+
+info:
+  title: Participant Management Module
+  version: '1.2'
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+  /api/v1/participants/view:
+    get:
+      summary: Fetch all participants
+      operationId: fetchAllParticipants
+      responses:
+        '200':
+          description: fetched all participants successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Participant'
+      tags:
+        - participants-controller
+  /api/v1/participants/fetch-codes:
+    get:
+      summary: Fetch direct codes
+      operationId: fetchDirectCodes
+      responses:
+        '200':
+          description: fetched all direct codes successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+      tags:
+        - participants-controller
+  /api/v1/participants/create:
+    post:
+      summary: Create a new participant
+      operationId: createParticipant
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Participant'
+        required: true
+      responses:
+        '201':
+          description: Participant was saved successfully
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/ServerResponse'
+      tags:
+        - participants-controller
+  /api/v1/participants/view/{code}:
+    get:
+      summary: Fetch participant by code
+      operationId: fetchParticipant
+      parameters:
+        - name: code
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/participantCode'
+      responses:
+        '200':
+          description: fetched participant Successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerResponse'
+      tags:
+        - participants-controller
+  /api/v1/participants/update/{code}:
+    put:
+      summary: Updates participant information
+      operationId: updateParticipant
+      parameters:
+        - in: path
+          name: code
+          required: true
+          schema:
+            $ref: '#/components/schemas/participantCode'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Participant'
+        required: true
+      responses:
+        '200':
+          description: Participant info updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerResponse'
+      tags:
+        - participants-controller
+
+components:
+  schemas:  
+    Participant:
+      type: object
+      required:
+        - code
+        - bic
+        - name
+        - shortName
+        - type
+        - logo
+      properties:
+        code:
+          $ref: '#/components/schemas/participantCode'
+        bic:
+          type: string
+          pattern: '^[A-Z0-9]{4}[A-Z]{2}[A-Z0-9]{2}([A-Z0-9]{3})?$'
+        name:
+          type: string
+          pattern: '[A-Za-z0-9]+'
+        shortName:
+          type: string
+          pattern: '^[A-Z]+$'
+        type:
+          $ref: '#/components/schemas/type'
+        logo:
+          type: string
+          format: 'base64'
+        settlementBank:
+          type: string
+
+    participantCode:
+      type: string
+      pattern: '^\d{6}$'
+
+    type:
+      type: string
+      enum:
+        - Direct
+        - Indirect
+
+    ServerResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        statusCode:
+          type: integer
+        participant:
+          $ref: '#/components/schemas/Participant'

@@ -1,0 +1,68 @@
+
+  <div class="mat-elevation-z8 ng-container">
+    <div *ngIf="dataSource; else noParticipants" class="container"></div>
+    <ng-template #noParticipants>No participant to view yet!</ng-template>
+    <table mat-table [dataSource]="dataSource" class="full-width-table">
+      <ng-container matColumnDef="index">
+        <th mat-header-cell *matHeaderCellDef> No. </th>
+        <td mat-cell *matCellDef="let element; let i = index"> {{i + 1}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="code">
+        <th mat-header-cell *matHeaderCellDef> Code</th>
+        <td mat-cell *matCellDef="let element"> {{ element.code }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="bic">
+        <th mat-header-cell *matHeaderCellDef> BIC </th>
+        <td mat-cell *matCellDef="let element"> {{element.bic}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="shortName">
+        <th mat-header-cell *matHeaderCellDef> Short Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.shortName}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef> Type </th>
+        <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="settlementBank">
+        <th mat-header-cell *matHeaderCellDef > Settlement Bank </th>
+        <td mat-cell *matCellDef="let element"> {{element.settlementBank}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="logo">
+        <th mat-header-cell *matHeaderCellDef> Logo </th>
+        <td mat-cell *matCellDef="let element"> 
+          <div>
+            <img [src]="element.logo" height="70px" style="padding: .5rem 0;"> 
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Update Data </th>
+        <td mat-cell *matCellDef="let element">
+          <button (click)="onUpdate(element.code)" class="btn primary-button">Update</button>
+        </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator 
+        [length] = "dataSource.data.length"
+        [pageSize]="10"
+        [pageSizeOptions]="[5, 10, 20]"
+        showFirstLastButtons>
+    </mat-paginator>
+  </div>
+
